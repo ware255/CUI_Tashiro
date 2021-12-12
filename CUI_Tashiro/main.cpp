@@ -116,7 +116,7 @@ void attack3(char* str, int port)
 int main(int argc, char* argv[])
 {
     if (getuid() != 0) {
-        printf("\n管理者権限じゃないと10Mbps超えなかったから\nsudo付けてね。\n\n");
+        printf("\n管理者権限じゃないと10Mbps超えなかったから\nsudoを付けて実行をしてね。\n\n");
         return -1;
     }
 
