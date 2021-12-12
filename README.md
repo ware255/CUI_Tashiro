@@ -5,3 +5,4 @@
 ##コンパイル
 ```
 $ clang++ -O3 -pthread -o CUI_Tashiro main.cpp
+```
