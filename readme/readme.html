@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+
+    <link rel="stylesheet" type="text/css" href="stylesheet.css" media="screen">
+
+    <title>作業の開始</title>
+  </head>
+
+<body>
+
+    <div class="container">
+        <div id="header">
+            <h1>作業の開始</h1>
+            <h2>Visual C++ for Linux Development</h2>
+        </div>
+    
+    <table>
+    <tr>    
+    <div id="main_content">
+        
+        <td>
+        <div id="lpanel">
+            <h1>Linux Development 向けのプロジェクトの設定</h1>
+
+            <p>このワークロードを使用して、Linux サーバー、デスクトップ、デバイス用の C++ コードを作成できます。VS からこれらのマシンへの接続を管理できます。VS では、ソースを自動的にコピーしてリモートでビルドし、デバッガーでアプリケーションを起動できます。弊社のプロジェクト システムでは、ARM を含む特定のアーキテクチャをターゲットにすることができます。</p>
+            <img src="images\ArchOptions.gif"/>
+            
+            <h1>Linux への接続中</h1>
+            <h2>前提条件</h2>
+            <p>現在サポートされているのは、Linux ターゲット マシンでのリモートでのビルドだけです。特定の Linux ディストリビューションで制限されてはいませんが、いくつかのツールの有無に依存しています。具体的には、openssh-server、g++、gdb、gdbserver が必要です。インストールするには、任意のパッケージ マネージャーを使用してください (例: Debian ベースのシステムの場合、sudo apt-get install openssh-server g++ gdb gdbserver)</p>
+            
+            <h2>最初の接続</h2>
+            <p>初めて Linux マシンをターゲットとしたときには、接続情報の入力が求められます。これは、プロジェクトをビルドすることによってトリガーされます。</p>
+            <img src="images\firstconnection.png"/>
+                
+            <h2>接続の追加と削除</h2>
+            <p>新しい接続を追加するには、[ツール] > [オプション] に移動し、接続を検索してください。[接続マネージャー] は [クロス プラットフォーム] の下にあります。ここから接続を追加したり削除したりできます。</p>
+            <img src="images\ManageConnections.gif"/>
+            
+            <p>プロジェクトで使用する接続を変更するには、プロジェクトのプロパティの全般設定に移動し、[リモート ビルド マシン] オプションを更新します。</p>
+            <img src="images\ChangeRemote.gif"/>
+            
+            <h1>プロジェクトのプロパティ</h1>
+            <p>C++ コンパイルを制御するのに必要なすべてのオプションは、プロジェクトのプロパティ ページで公開されています。Linux での動作について、いくつかの点を取り上げます。まず全般設定で、リモート ルートが既定で ~/projects/ に設定されており、リモート プロジェクト ディレクトリがその場所のプロジェクト名と一致するように設定されていることが分かります。</p>
+            <img src="images\OutputTypes.gif"/>
+            
+            <p>プロジェクトの全般設定を見ると、出力と中間ディレクトリがどのように構成されたかを確認できます。また、このプロジェクトがアプリケーションとして構成されていたため、実行可能ファイルが bin/x64/Debug/ に ConsoleApplication1.out として配置されていることがわかります。構成の種類に応じて、静的および動的ライブラリもサポートされることをご確認ください。</p>
+            
+            <p>[リンカー] > [入力] プロパティ ページに他のライブラリ依存関係を追加します。</p>
+            <img src="images\linker.png"/>
+            
+            <p>追加の起動前コマンドをデバッガーに渡すことにより、グラフィカル アプリの起動などの操作をリモート Linux マシン上で行うことができます。</p>
+            <img src="images\debuggerexport.png"/>
+            
+            <p>ビルド後イベントを送信してリモート動作を制御することもできます。この例では、実行可能ファイルをスーパー ユーザーとして実行することなく GPIO ピンをエクスポートして使用します。</p>
+            <img src="images\postbuild.png"/>
+            
+        </div>
+        </td>
+        <td>
+        <div id="rpanel">
+
+            <h1>リソース</h1>
+
+            <p>更新情報を投稿し、使用方法に関する詳細情報を提供している <a href="http://aka.ms/vslinux">VC++ for Linux Development のページ</a>を参照してください。</p>
+            <h1>フィードバックの送信</h1>
+            <p>Visual Studio のフィードバックの送信機能を使用するか、<a href=" https://developercommunity.visualstudio.com/">Developer Community</a> を通してお問い合わせください</p>
+        </div>
+        </td>   
+    </div>
+    </tr>
+    </table>
+    </div>
+</body>
+</html>
