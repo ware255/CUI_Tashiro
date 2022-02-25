@@ -8,11 +8,9 @@
 
 #include<cstdio>
 #include<cstdlib>
-#include<cstring>
 #include<netdb.h>
 #include<arpa/inet.h>
 
-#include <sys/types.h>
 #include <unistd.h>
 
 #define THREADS 10  // <- 好きなように設定してどうぞ
