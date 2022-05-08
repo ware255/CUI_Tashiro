@@ -74,6 +74,11 @@ int main(int argc, char* argv[])
     }
 
     port = atoi(argv[2]);
+    
+    if (port < 0 || port > 65535) {
+        printf("\nポート番号は0以上、65535以下を入力してね。\n\n");
+        return 1;
+    }
 
     str = he->h_name;
 
