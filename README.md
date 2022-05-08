@@ -4,6 +4,11 @@
 ルーターを攻撃するのに最適です。<br>
 ※Linuxで動作させるようになってます。
 <br>
+## clangの導入方法
+```
+$ sudo apt update && sudo apt upgrade && sudo apt autoremove
+$ sudo apt install clang
+````
 ## コンパイル
 ```
 $ clang++ -Ofast -o CUI_Tashiro main.cpp
